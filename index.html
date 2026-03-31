@@ -1,23 +1,554 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>Home</title>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    <!--
-      Need a visual blank slate?
-      Remove all code in `styles.css`!
-    -->
-    <link rel="stylesheet" href="styles.css" />
-    <script type="module" src="script.js"></script>
-  </head>
-  <body>
+
+  <!-- Schema.org 구조화 데이터 -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FinancialService",
+    "name": "포르쉐 파나메라 리스 전문 컨설팅 센터",
+    "description": "2026년형 포르쉐 파나메라 모델별 운용리스, 금융리스, 장기 렌트 가격 비교 및 최저가 견적 서비스 제공.",
+    "url": "https://www.example.com/porsche-panamera-lease-2026",
+    "telephone": "02-XXX-XXXX",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "서울특별시 강남구 테헤란로 123",
+      "addressLocality": "강남구",
+      "addressRegion": "서울특별시",
+      "postalCode": "06123",
+      "addressCountry": "KR"
+    },
+    "openingHours": "Mo-Fr 09:00-18:00",
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "포르쉐 파나메라 리스 상품 목록",
+      "itemListElement": [
+        {"@type":"Offer","itemOffered":{"@type":"Service","name":"포르쉐 파나메라 기본 모델 리스"}},
+        {"@type":"Offer","itemOffered":{"@type":"Service","name":"포르쉐 파나메라 4S E-Hybrid 리스"}},
+        {"@type":"Offer","itemOffered":{"@type":"Service","name":"포르쉐 파나메라 GTS 리스"}},
+        {"@type":"Offer","itemOffered":{"@type":"Service","name":"보증금 없는 무보증 리스 상품"}},
+        {"@type":"Offer","itemOffered":{"@type":"Service","name":"잔존가치 최대화 리스"}},
+        {"@type":"Offer","itemOffered":{"@type":"Service","name":"장기 렌트 전환형 상품"}}
+      ]
+    },
+    "knowsAbout": ["Porsche Panamera", "Porsche Taycan", "Porsche Cayenne", "Porsche 911", "리스", "운용리스", "금융리스", "장기렌트", "자동차 리스 견적", "자동차 리스 비용", "2026년형"]
+  }
+  </script>
+
+  <style>
+    /* 기본 글꼴과 색상 조화로운 부드러운 톤 적용 */
+    body {
+      font-family: 'Noto Sans KR', 'Arial', sans-serif;
+      margin: 0; padding: 0;
+      background: #f7f9fc;
+      color: #2c3e50;
+      line-height: 1.7;
+    }
+    header, section, footer {
+      max-width: 900px;
+      margin: 30px auto;
+      padding: 30px;
+      background: #ffffff;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      border-radius: 12px;
+    }
+    h1 {
+      color: #34495e;
+      margin-top: 0.5em;
+      margin-bottom: 0.2em;
+      font-weight: 800;
+      font-size: 2.5rem;
+      letter-spacing: -0.05em;
+    }
+    h2 {
+      color: #34495e;
+      margin-top: 1.5em;
+      margin-bottom: 0.8em;
+      font-weight: 700;
+      font-size: 1.8rem;
+      border-bottom: 2px solid #e0e6ec;
+      padding-bottom: 0.3em;
+    }
+    h3 {
+      color: #4d5d6c;
+      margin-top: 1.2em;
+      margin-bottom: 0.6em;
+      font-weight: 600;
+      font-size: 1.4rem;
+    }
+    p, li {
+      font-size: 1.05rem;
+      color: #4d5d6c;
+      margin-bottom: 1.2em;
+    }
+    nav ul {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      padding-left: 0;
+      list-style: none;
+      border-bottom: 2px solid #005A31; /* 포르쉐 로고 색상 */
+      margin-bottom: 1.5em;
+    }
+    nav li {
+      margin-bottom: 0;
+    }
+    nav a {
+      text-decoration: none;
+      font-weight: 600;
+      color: #005A31;
+      transition: color 0.3s ease, background-color 0.3s ease;
+      padding: 5px 10px;
+      border-radius: 4px;
+    }
+    nav a:hover {
+      background-color: #f0f0f0;
+      color: #003e21;
+    }
+
+    /* 이미지 스타일 */
+    .hero-image {
+      width: 100%;
+      height: 350px;
+      object-fit: cover;
+      border-radius: 12px;
+      margin-top: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    /* 표 스타일 */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 0.95rem;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 12px 15px;
+      text-align: left;
+    }
+    th {
+      background-color: #005A31;
+      color: white;
+      font-weight: 700;
+    }
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+    tr:hover {
+      background-color: #f1f1f1;
+    }
+
+    /* 그래프 컨테이너 스타일 */
+    .chart-container {
+      margin: 40px 0;
+      max-width: 100%;
+      overflow-x: auto;
+      background: #ffffff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+
+    /* 견적 문의 양식 스타일 */
+    .input-section {
+      margin-top: 25px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .input-group {
+      flex: 1 1 300px;
+      display: flex;
+      flex-direction: column;
+    }
+    label {
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: #34495e;
+    }
+    input[type="text"], input[type="tel"], input[type="email"], select, textarea {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 1rem;
+      transition: border-color 0.3s ease;
+    }
+    input[type="text"]:focus, input[type="tel"]:focus, input[type="email"]:focus, select:focus, textarea:focus {
+      border-color: #005A31;
+      outline: none;
+    }
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+    button.cta-btn {
+      background-color: #005A31;
+      color: white;
+      padding: 14px 30px;
+      font-size: 1.1rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: background-color 0.3s ease;
+      align-self: flex-start;
+      width: 100%;
+      font-weight: 700;
+    }
+    button.cta-btn:hover {
+      background-color: #003e21;
+    }
+
+    /* FAQ 스타일 (아코디언 기능) */
+    .faq .item {
+      border-bottom: 1px solid #ddd;
+      padding: 15px 0;
+    }
+    .faq .item:last-child {
+      border-bottom: none;
+    }
+    .faq h3.question {
+      cursor: pointer;
+      color: #2c3e50;
+      font-weight: 700;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+    }
+    .faq h3.question::before {
+      content: 'Q.';
+      color: #005A31;
+      font-size: 1.2rem;
+      margin-right: 10px;
+    }
+    .faq p.answer {
+      margin: 0 0 15px 30px;
+      color: #555;
+      display: none; /* 초기 상태 숨김 */
+      border-left: 3px solid #f0f0f0;
+      padding-left: 15px;
+    }
+    /* 링크 스타일 */
+    a.external-link {
+      color: #005A31;
+      text-decoration: underline;
+      transition: color 0.3s ease;
+    }
+    a.external-link:hover {
+      color: #003e21;
+    }
+  </style>
+
+  <script>
+    // FAQ toggle 기능
+    document.addEventListener('DOMContentLoaded', () => {
+      const faqItems = document.querySelectorAll('.faq .item h3');
+      faqItems.forEach(item => {
+        item.addEventListener('click', () => {
+          const answer = item.nextElementSibling;
+          answer.style.display = (answer.style.display === 'block') ? 'none' : 'block';
+        });
+      });
+    });
+  </script>
+
+</head>
+<body>
+  <header>
+    <h1>포르쉐 파나메라 리스 가격 및 견적 비교 (2026년 최신)</h1>
+    <p>포르쉐의 대표 럭셔리 스포츠 세단, 2026년형 파나메라 리스 견적을 전문가와 함께 심층 분석합니다. 합리적인 가격으로 파나메라를 소유하는 방법을 비교하고 최적의 견적을 찾아보세요.</p>
     <nav>
-      <a href="/" aria-current="page">Home</a>
-      <a href="/page2.html">Other page</a>
+      <ul>
+        <li><a href="#overview">파나메라 리스 개요</a></li>
+        <li><a href="#models">모델별 가격 및 비교</a></li>
+        <li><a href="#comparison">리스 vs. 렌트 vs. 할부</a></li>
+        <li><a href="#saving-tips">절감 팁 및 세금</a></li>
+        <li><a href="#faq">자주 묻는 질문</a></li>
+        <li><a href="#contact">견적 문의</a></li>
+        <li><a href="#external-resources">외부 참고자료</a></li>
+      </ul>
     </nav>
-    <main>
-      <h1>Home page</h1>
-    </main>
-  </body>
-</html>
+    <img src="https://images.pexels.com/photos/1007410/pexels-photo-1007410.jpeg" alt="Porsche Panamera" class="hero-image" loading="lazy">
+  </header>
+
+  <section id="overview">
+    <h2>포르쉐 파나메라 리스의 모든 것: 2026년형 완벽 가이드</h2>
+    <p>포르쉐 파나메라(Porsche Panamera)는 럭셔리 세단의 편안함과 스포츠카의 강력한 성능을 동시에 갖춘 모델로, 많은 기업인과 전문직 종사자에게 선호도가 높습니다. 특히 2026년형 모델은 이전 세대보다 향상된 디자인과 기술력으로 주목받고 있습니다. 고가의 차량을 합리적으로 운용하기 위해 '리스(Lease)'는 가장 널리 사용되는 방법 중 하나입니다.</p>
+
+    <h3>리스란 무엇이며, 왜 파나메라에 적합한가요?</h3>
+    <p>리스는 차량을 직접 구매하지 않고 일정 기간 동안 대여하여 사용하는 방식입니다. 파나메라와 같은 고가 차량의 경우, 초기 구매 비용이 매우 높기 때문에 리스를 통해 비용 부담을 줄일 수 있습니다. 리스 계약은 크게 운용리스와 금융리스로 나뉘며, 이용자의 상황에 따라 세제 혜택(개인사업자, 법인)이 달라집니다.</p>
+
+    <p>리스의 장점은 월 납입금에 취득세, 등록세, 자동차세, 보험료(포함 여부 선택 가능) 등이 모두 포함되어 있어 복잡한 차량 관리를 금융사에 맡길 수 있다는 점입니다. 또한, 리스 기간 만료 후 차량을 반납하거나 인수할 수 있어 차량 교체가 잦은 고객에게 유용합니다. 특히 2026년 법인세법 개정에 따라 업무용 차량 비용처리 기준이 강화되면서, 합리적인 리스 상품 선택의 중요성이 더욱 커지고 있습니다.</p>
+
+    <h3>2026년형 포르쉐 파나메라 리스 시장 동향</h3>
+    <p>2026년 리스 시장에서는 친환경 차량에 대한 관심이 높아지면서 파나메라 E-Hybrid 모델의 리스 수요가 증가하고 있습니다. 금융사들은 이러한 수요에 맞춰 다양한 하이브리드 리스 상품과 함께 전기차 모델인 포르쉐 타이칸(Porsche Taycan)과 비교하여 파나메라 리스 혜택을 제공하고 있습니다. 또한, 포르쉐 911 카레라(Porsche 911 Carrera)나 카이엔(Porsche Cayenne), 마칸(Porsche Macan) 같은 인기 모델과 함께 파나메라 리스 상품을 묶어 프로모션을 진행하는 경우가 많습니다.</p>
+  </section>
+
+  <section id="models">
+    <h2>포르쉐 파나메라 모델별 상세 분석 및 견적 비교</h2>
+    <p>포르쉐 파나메라는 다양한 트림으로 제공되며, 모델에 따라 차량 가격과 리스 견적이 크게 달라집니다. 2026년형 파나메라 라인업의 주요 모델과 예상 리스 견적을 비교해봅니다. 리스 견적은 잔존가치, 계약 기간(36개월/48개월/60개월), 선납금/보증금 여부에 따라 크게 변동될 수 있습니다.</p>
+
+    <h3>주요 모델별 리스 견적 예상</h3>
+    <ul>
+      <li><strong>포르쉐 파나메라 4 (기본 모델):</strong> 파나메라 라인업의 시작을 알리는 모델로, 합리적인 리스 가격(최저 리스료)을 찾는 고객에게 적합합니다. 2026년형 기본 모델의 리스 견적은 1억 5천만 원 상당의 차량가액을 기준으로 산출됩니다.</li>
+      <li><strong>포르쉐 파나메라 4S E-Hybrid:</strong> 고성능 플러그인 하이브리드(PHEV) 모델로, 세제 혜택과 연비 효율성이 뛰어나 리스 수요가 높습니다. 상대적으로 높은 차량가액에도 불구하고, 친환경차 혜택 덕분에 리스 비용 절감이 가능합니다.</li>
+      <li><strong>포르쉐 파나메라 GTS:</strong> 강력한 성능과 스포티한 디자인을 선호하는 고객을 위한 모델입니다. 높은 잔존가치로 인해 리스 기간 만료 후 인수 시에도 유리할 수 있습니다.</li>
+      <li><strong>포르쉐 파나메라 터보 S E-Hybrid:</strong> 최상위 모델로, 차량가액이 3억 원에 육박합니다. 월 리스료 부담이 크지만, 고소득 법인 고객에게는 감가상각 및 비용 처리 측면에서 유리합니다.</li>
+    </ul>
+
+    <h3>포르쉐 파나메라 리스 예상 비용 비교표 (2026년 기준)</h3>
+    <p>아래 표는 2026년형 포르쉐 파나메라 모델별 예상 리스 견적을 비교한 것입니다. (조건: 48개월 계약, 보증금 30%, 연간 주행거리 2만km 기준)</p>
+    <table>
+      <thead>
+        <tr>
+          <th>모델</th>
+          <th>차량가액 (예상)</th>
+          <th>보증금 (30%)</th>
+          <th>예상 월 리스료</th>
+          <th>특징</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Panamera 4</td>
+          <td>1억 5,000만 원</td>
+          <td>4,500만 원</td>
+          <td>약 180만 ~ 210만 원</td>
+          <td>가장 저렴한 월 납입금, 합리적인 선택</td>
+        </tr>
+        <tr>
+          <td>Panamera 4S E-Hybrid</td>
+          <td>1억 8,000만 원</td>
+          <td>5,400만 원</td>
+          <td>약 220만 ~ 250만 원</td>
+          <td>하이브리드 세제 혜택, 높은 연비 효율</td>
+        </tr>
+        <tr>
+          <td>Panamera GTS</td>
+          <td>2억 2,000만 원</td>
+          <td>6,600만 원</td>
+          <td>약 280만 ~ 320만 원</td>
+          <td>고성능 모델, 높은 잔존가치율</td>
+        </tr>
+        <tr>
+          <td>Panamera Turbo S E-Hybrid</td>
+          <td>2억 8,000만 원</td>
+          <td>8,400만 원</td>
+          <td>약 380만 ~ 430만 원</td>
+          <td>최상위 모델, 최고의 성능</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>※ 상기 금액은 2026년 예상 수치이며, 금융사별 금리, 잔존가치 설정, 프로모션에 따라 실제 견적은 달라질 수 있습니다. 정확한 견적은 전문가 상담을 통해 확인하세요.</p>
+  </section>
+
+  <section id="comparison">
+    <h2>리스 vs. 장기 렌트 vs. 할부: 장단점 비교</h2>
+    <p>포르쉐 파나메라를 운용하는 방법은 리스 외에도 장기 렌트(Long-Term Rental)와 할부(Financing)가 있습니다. 각 방법의 장단점을 비교하여 본인의 상황에 가장 적합한 방식을 선택하는 것이 중요합니다.</p>
+
+    <h3>1. 운용리스 (Operating Lease)</h3>
+    <ul>
+      <li><strong>장점:</strong> 월 리스료 전액을 비용으로 처리할 수 있어 법인세 및 사업소득세 절감 효과가 큽니다. 차량 등록 시 리스사 명의로 등록되므로 개인 재산으로 잡히지 않아 건강보험료나 재산세 증가에 영향을 주지 않습니다. 리스 기간 종료 후 반납 및 인수가 자유롭습니다.</li>
+      <li><strong>단점:</strong> 일반 번호판을 사용하지만 리스 기간 중 중도 해지 시 위약금이 발생합니다. 자동차 보험 경력이 단절될 수 있습니다.</li>
+    </ul>
+
+    <h3>2. 장기 렌트 (Long-Term Rental)</h3>
+    <ul>
+      <li><strong>장점:</strong> 보험료가 월 렌트료에 포함되어 있어 사고 시 보험 할증 부담이 없습니다. 렌터카 전용 보험을 사용하므로 사고 이력이 많더라도 보험료 변동이 없습니다. 초기 비용 부담이 가장 적습니다.</li>
+      <li><strong>단점:</strong> '허' 번호판을 사용합니다. 리스보다 잔존가치 설정이 까다로울 수 있으며, 비용 처리 기준이 리스와 약간 다릅니다.</li>
+    </ul>
+
+    <h3>3. 금융리스 (Finance Lease)</h3>
+    <ul>
+      <li><strong>장점:</strong> 일반 할부와 유사하게 차량 소유권이 리스 이용자에게 있습니다. 차량가 전액을 리스사가 대납하므로 초기 비용 부담이 적습니다.</li>
+      <li><strong>단점:</strong> 금융 상품으로 분류되어 차량이 개인/법인 재산으로 잡힙니다. 이로 인해 건강보험료 및 재산세 증가 요인이 될 수 있습니다.</li>
+    </ul>
+
+    <h3>리스와 장기 렌트의 '함께 많이 찾는' 차이점</h3>
+    <p>네이버나 구글에서 '포르쉐 리스 vs 렌트 차이점'을 검색하는 고객이 많습니다. 가장 큰 차이는 앞서 언급한 번호판과 보험료 처리 방식입니다. 포르쉐 파나메라 같은 고가 차량은 장기 렌트보다 리스를 선호하는 경우가 많습니다. 리스 이용자는 보험료 할증을 피하고 싶거나, 품위 유지를 위해 '허' 번호판을 꺼려하는 경향이 있습니다. 또한, 포르쉐 911 같은 스포츠카는 장기 렌트 상품 자체를 취급하지 않는 곳도 많습니다.</p>
+  </section>
+
+  <section id="saving-tips">
+    <h2>포르쉐 파나메라 리스 비용 절감 전략: 저렴한 곳 찾는 방법</h2>
+    <p>포르쉐 파나메라 리스 견적을 최소화하고 혜택을 극대화하기 위한 전문가의 노하우입니다. 단순히 월 납입금이 낮은 곳만 찾는 것이 아니라, 총 비용을 줄이는 방법을 이해해야 합니다.</p>
+
+    <h3>1. 잔존가치(Residual Value) 극대화</h3>
+    <p>잔존가치는 리스 계약 만료 시점의 차량 가치를 의미합니다. 잔존가치가 높을수록 월 리스료는 낮아집니다. 포르쉐는 국산차 대비 감가상각이 적어 잔존가치가 높은 편입니다. 금융사별로 잔존가치 설정 기준이 다르므로, 여러 금융사의 견적을 비교하여 잔존가치를 최대한 높게 책정해주는 곳을 찾아야 합니다.</p>
+
+    <h3>2. 계약 기간 및 선납금/보증금 활용</h3>
+    <p><strong>선납금 vs. 보증금:</strong> 선납금(Prepayment)은 리스료를 미리 납부하는 것이므로 월 납입금 절감 효과가 있지만, 돌려받을 수 없습니다. 보증금(Guarantee Deposit)은 계약 종료 후 돌려받거나 인수에 사용할 수 있습니다. 초기 자금이 있다면 보증금을 높게 설정하여 리스 이자율을 낮추는 것이 장기적으로 유리합니다.</p>
+
+    <h3>3. 비공식 프로모션 및 딜러 할인 확인</h3>
+    <p>포르쉐 공식 딜러사 외에도 리스 전문 업체를 통해 비공식 프로모션을 받을 수 있습니다. 특히 2026년형 신모델 출시 직전이나 연말에는 재고 소진을 위한 대규모 할인 혜택이 있을 수 있습니다. 다양한 리스 전문 업체의 견적을 동시에 비교하여 싼 곳을 찾는 것이 중요합니다.</p>
+
+    <h3>4. 금리 비교 및 AI 기반 견적 분석</h3>
+    <p>최근에는 AI 기반 견적 비교 플랫폼(예: ChatGPT, Gemini를 활용한 분석)이 등장하여 여러 금융사의 금리를 실시간으로 비교해줍니다. 2026년 기준 금리 변동성을 고려하여 최적의 금리를 제공하는 리스사를 선택해야 합니다. 금융리스의 경우 할부 금리와 유사하게 적용되므로 신용도 관리도 중요합니다.</p>
+
+    <h3>5. 법인 및 개인사업자 세금 절감 전략</h3>
+    <p>법인 사업자의 경우, 파나메라 리스료는 전액 비용 처리가 가능합니다. 2026년 업무용 차량 관련 세법 규정 변경사항을 반드시 확인하고, 연간 비용 처리 한도를 초과하지 않는 선에서 리스 상품을 설계하는 것이 중요합니다. 개인사업자는 리스료를 경비 처리하여 소득세를 절감할 수 있습니다.</p>
+  </section>
+
+  <section id="faq" class="faq">
+    <h2>자주 묻는 질문 (FAQ)</h2>
+    <div class="item">
+      <h3 class="question">Q1: 포르쉐 파나메라 리스를 중도 해지하면 위약금이 얼마나 발생하나요?</h3>
+      <p class="answer">A: 중도 해지 위약금은 계약 조건에 따라 다르지만, 일반적으로 남은 리스료의 20%~40% 수준이 발생합니다. 계약 초기에 해지할수록 위약금이 더 커집니다. 따라서 계약 전 중도 해지 시 조건을 꼼꼼히 확인하고, 계약 기간을 신중하게 정하는 것이 중요합니다.</p>
+    </div>
+    <div class="item">
+      <h3 class="question">Q2: 보증금 없는 무보증 리스도 가능한가요?</h3>
+      <p class="answer">A: 네, 가능합니다. 하지만 무보증 리스는 초기 비용 부담이 없는 대신 월 리스료가 높아지거나, 금융사에서 신용도가 높은 고객에게만 제공되는 경우가 많습니다. 보증금이 높을수록 월 납입금 이자율이 낮아지는 점을 고려하여 결정해야 합니다.</p>
+    </div>
+    <div class="item">
+      <h3 class="question">Q3: 리스 기간 만료 후 차량 인수를 추천하나요?</h3>
+      <p class="answer">A: 차량 인수는 개인의 운용 계획에 따라 다릅니다. 파나메라의 잔존가치가 높게 책정되어 있다면, 인수하여 중고차로 판매하는 것이 유리할 수 있습니다. 반면, 차량 교체를 자주 하는 고객이라면 반납 후 신차로 재리스하는 것이 좋습니다.</p>
+    </div>
+    <div class="item">
+      <h3 class="question">Q4: 포르쉐 파나메라 리스 시 보험은 어떻게 처리되나요?</h3>
+      <p class="answer">A: 리스 상품은 리스사가 계약자 명의로 보험에 가입하며, 보험료가 월 리스료에 포함되는 '포함형'과 리스 이용자가 별도로 가입하는 '별도 가입형'이 있습니다. '별도 가입형'을 선택할 경우 개인의 보험 경력을 이어갈 수 있어 유리할 수 있습니다.</p>
+    </div>
+    <div class="item">
+      <h3 class="question">Q5: 포르쉐 파나메라와 포르쉐 타이칸 리스 비용 차이는 어느 정도인가요?</h3>
+      <p class="answer">A: 파나메라와 타이칸은 차량가액이 비슷하지만, 타이칸이 전기차(EV) 보조금을 받을 경우 파나메라보다 월 리스료가 저렴해질 수 있습니다. 또한, 타이칸은 보조금 외에도 낮은 자동차세와 공채 매입 의무 면제 등 추가적인 혜택이 있어 총 운용 비용이 낮아집니다. 자세한 비교는 전문가 견적을 받아보는 것이 좋습니다.</p>
+    </div>
+    <div class="item">
+      <h3 class="question">Q6: 리스 계약 시 연간 약정 주행거리는 어떻게 정해야 하나요?</h3>
+      <p class="answer">A: 연간 약정 주행거리는 리스료 산정의 중요한 요소입니다. 주행거리가 길수록 리스료가 높아지므로, 본인의 운행 패턴을 정확하게 예측하여 설정해야 합니다. 주행거리를 초과할 경우 km당 추가 비용이 발생할 수 있으므로, 평소보다 여유 있게 설정하는 것을 추천합니다. 일반적으로 1만km, 2만km, 3만km 단위로 선택 가능합니다.</p>
+    </div>
+  </section>
+
+  <section id="contact">
+    <h2>2026년형 포르쉐 파나메라 리스 견적 문의</h2>
+    <p>포르쉐 파나메라의 실시간 최저가 견적을 지금 바로 받아보세요. 전문 컨설턴트가 고객님의 상황에 맞는 맞춤형 견적과 최적의 절감 전략을 제안해 드립니다. 아래 양식을 작성해 주시면 신속하게 연락드리겠습니다.</p>
+    <form action="/submit-porsche-quote" method="post" aria-label="포르쉐 파나메라 리스 견적 문의 폼">
+      <div class="input-section">
+        <div class="input-group">
+          <label for="contactName">담당자명/신청자명</label>
+          <input type="text" id="contactName" name="contactName" required />
+        </div>
+        <div class="input-group">
+          <label for="companyName">회사명 (선택 사항)</label>
+          <input type="text" id="companyName" name="companyName" placeholder="개인 고객일 경우 생략 가능" />
+        </div>
+        <div class="input-group">
+          <label for="phoneNumber">연락처</label>
+          <input type="tel" id="phoneNumber" name="phoneNumber" pattern="[0-9]{3}-[0-9]{3,4}-[0-9]{4}" placeholder="예: 010-1234-5678" required />
+        </div>
+        <div class="input-group">
+          <label for="email">이메일</label>
+          <input type="email" id="email" name="email" placeholder="example@company.com" required />
+        </div>
+        <div class="input-group">
+          <label for="vehicleModel">희망 모델 (Panamera)</label>
+          <select id="vehicleModel" name="vehicleModel" required>
+            <option value="" disabled selected>파나메라 트림 선택</option>
+            <option value="Panamera4">파나메라 4</option>
+            <option value="Panamera4SEHybrid">파나메라 4S E-Hybrid</option>
+            <option value="PanameraGTS">파나메라 GTS</option>
+            <option value="PanameraTurboSEHybrid">파나메라 터보 S E-Hybrid</option>
+            <option value="Other">그 외 (911, Cayenne, Macan 등)</option>
+          </select>
+        </div>
+        <div class="input-group">
+          <label for="leaseTerm">희망 리스 기간 (개월)</label>
+          <select id="leaseTerm" name="leaseTerm" required>
+            <option value="" disabled selected>기간 선택</option>
+            <option value="36">36개월</option>
+            <option value="48">48개월</option>
+            <option value="60">60개월</option>
+          </select>
+        </div>
+        <div class="input-group">
+          <label for="depositType">보증금/선납금 여부</label>
+          <select id="depositType" name="depositType" required>
+            <option value="" disabled selected>선택</option>
+            <option value="noDeposit">무보증금 (0%)</option>
+            <option value="10percent">10%</option>
+            <option value="20percent">20%</option>
+            <option value="30percent">30% 이상</option>
+          </select>
+        </div>
+        <div class="input-group">
+          <label for="mileage">연간 약정 주행거리 (km)</label>
+          <select id="mileage" name="mileage" required>
+            <option value="" disabled selected>선택</option>
+            <option value="10000">1만 km</option>
+            <option value="15000">1만 5천 km</option>
+            <option value="20000">2만 km</option>
+            <option value="30000">3만 km</option>
+          </select>
+        </div>
+        <div class="input-group" style="flex-basis: 100%;">
+          <label for="additionalInfo">추가 문의 사항 (AI 분석 희망 시)</label>
+          <textarea id="additionalInfo" name="additionalInfo" rows="4" placeholder="특별히 알고 싶은 사항이나 요청 사항 (예: 법인 비용 처리, 저렴한 견적 혜택)을 적어주세요."></textarea>
+        </div>
+      </div>
+      <button type="submit" class="cta-btn">포르쉐 파나메라 맞춤 견적 요청하기</button>
+    </form>
+  </section>
+
+  <section id="external-resources">
+    <h2>신뢰할 수 있는 외부 참고자료 및 공식 웹사이트</h2>
+    <p>포르쉐 파나메라 리스 계약 시 다음의 공인된 정보를 참고하시기 바랍니다.</p>
+    <ul>
+      <li><a href="https://www.porsche.com/korea/ko/" target="_blank" rel="noopener" class="external-link">포르쉐 코리아 공식 홈페이지</a></li>
+      <li><a href="https://www.fsb.or.kr/" target="_blank" rel="noopener" class="external-link">여신금융협회 (리스 금융 관련 정보)</a></li>
+      <li><a href="https://www.nts.go.kr/nts/main.do" target="_blank" rel="noopener" class="external-link">국세청 (법인/개인사업자 세금 처리 관련)</a></li>
+      <li><a href="https://www.molit.go.kr/car/index.jsp" target="_blank" rel="noopener" class="external-link">국토교통부 (자동차 등록 및 관련 법규)</a></li>
+      <li><a href="https://www.kiri.or.kr/main/main.do" target="_blank" rel="noopener" class="external-link">보험연구원 (자동차 보험 및 금융 정보)</a></li>
+    </ul>
+  </section>
+
+  <!-- Chart.js 라이브러리 로드 -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    const ctx = document.getElementById('insuranceChart').getContext('2d');
+    const insuranceChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Panamera 4', 'Panamera 4S E-Hybrid', 'Panamera GTS', 'Panamera Turbo S E-Hybrid'],
+        datasets: [{
+          label: '예상 월 리스료 (만원)',
+          data: [195, 235, 300, 400], // 테이블 평균값 기반 데이터
+          backgroundColor: ['#005A31', '#007A44', '#009B59', '#00B86C'],
+          borderRadius: 6,
+          borderWidth: 1,
+          borderColor: '#003e21',
+          hoverBackgroundColor: '#003e21'
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              stepSize: 50,
+              callback: value => value + '만원'
+            },
+            title: {
+              display: true,
+              text: '월 리스료 (만원)'
+            }
+          },
+          x: {
+            title: {
+              display: true,
+              text: '포르쉐 파나메라 모델'
+            }
+          }
+        },
+        plugins: {
+          legend: {
+            display: false
+          },
+          tooltip: {
+            callbacks: {
+              label: context => context.parsed.y + '만원'
+            }
+          }
+        }
+      }
+    });
+  </script>
+
+  
